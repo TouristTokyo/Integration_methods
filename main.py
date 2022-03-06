@@ -37,11 +37,19 @@ def method_simons(a, b, n):
 
 def method_parabolas(a, b, n):
     h = (b - a) / n
-    sum = 0
-    bl = ((get_function_value(a) + 3 * get_function_value(a + h) + 3 * get_function_value(a + 2 * h) +
-           get_function_value(a + 3 * h)) * 3 * h / 8)
-    sum += bl
-    return sum
+    res = 0
+    for i in range(0, n + 1):
+        if i == 0 or i == n:
+            res += 7 * get_function_value(a)
+        if i % 2 != 0 and i % 3 != 0:
+            res += 3 * get_function_value(a)
+        if i % 2 == 0 and i % 3 != 0:
+            res += 3 * get_function_value(a)
+        if i % 3 == 0:
+            res += 2 * get_function_value(a)
+        a += h
+    res *= (3 * h) / 8
+    return res
 
 
 def method_bool(a, b, n):
