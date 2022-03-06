@@ -20,19 +20,8 @@ def method_trapeziums(a, b, n):
 
 
 def method_simons(a, b, n):
-    s = 0
-    h = (b - a) / n
-
-    x = a + h
-    while x < b:
-        s = s + 4 * get_function_value(x)
-        x = x + h
-        if x >= b:
-            break
-        s = s + 2 * get_function_value(x)
-        x = x + h
-        s = (h / 3) * (s + get_function_value(a) + get_function_value(b))
-    return s
+    #Илья сделай метод!
+    pass
 
 
 def method_parabolas(a, b, n):
@@ -109,7 +98,7 @@ def main():
 
     print(f"Method rectangles: {method_rectangles(a, b, n)}")
     print(f"Method trapezoidal: {method_trapeziums(a, b, n)}")
-    print(f"Method parabolas: {method_simons(a, b, n)}")
+    #print(f"Method parabolas: {method_simons(a, b, n)}")
     print(f"Method cubic parabolas: {method_parabolas(a, b, n)}")
     print(f"Method boole: {method_bool(a, b, n)}")
     print(f"Method Gauss: {method_gauss(a, b, n, count)}")
