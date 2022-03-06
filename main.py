@@ -9,7 +9,6 @@ def method_rectangles(a, b, n):
     return answer * h
 
 
-# function
 def method_trapeziums(a, b, n):
     h = (b - a) / n
     answer = 0
