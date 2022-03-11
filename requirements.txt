@@ -1,0 +1,13 @@
+Pillow
+cycler
+fonttools
+kiwisolver
+matplotlib
+numpy
+packaging
+pip	21.2.4
+pyparsing
+python-dateutil
+scipy
+setuptools
+six
