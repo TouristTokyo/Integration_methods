@@ -1,5 +1,5 @@
 import numpy as np
-import scipy as sp
+import scipy.integrate as sp
 import matplotlib.pyplot as plt
 
 
@@ -91,12 +91,14 @@ def __calculate_sum(a, b, count_node):
 
 
 def get_grafic(a, b, n):
-    h = np.arange(100, n)
+    h = np.arange(1, n)
+
     y1 = []
     y2 = []
     y3 = []
     y4 = []
     y5 = []
+    y6 = []
     for i in h:
         y1.append(method_rectangles(a, b, i))
         y2.append(method_trapeziums(a, b, i))
@@ -104,16 +106,16 @@ def get_grafic(a, b, n):
         y4.append(method_parabolas(a, b, i))
         y5.append(method_bool(a, b, i))
 
-    plt.title("График")
+    plt.title("Graphics")
     plt.xlabel("h")
     plt.ylabel("y1, y2, y3, y4, y5")
     plt.grid()
 
-    plt.plot(h, y1, label="Метод прямоугольников")
-    plt.plot(h, y2, label="Метод трапеций")
-    plt.plot(h, y3, label="Метод Симпсона")
-    plt.plot(h, y4, label="Метод кубических парабол")
-    plt.plot(h, y5, label="Метод Буля")
+    plt.plot(h, y1, label="Method rectangles")
+    plt.plot(h, y2, label="Method trapezoidal")
+    plt.plot(h, y3, label="Method parabolas")
+    plt.plot(h, y4, label="Method cubic parabolas")
+    plt.plot(h, y5, label="Method Boole")
 
     plt.legend()
 
