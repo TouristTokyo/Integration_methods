@@ -1,4 +1,6 @@
-import numpy
+import numpy as np
+import scipy.integrate as sp
+import matplotlib.pyplot as plt
 
 
 def method_rectangles(a, b, n):
@@ -19,9 +21,12 @@ def method_trapeziums(a, b, n):
     return answer * h / 2
 
 
-def method_simons(a, b, n):
-    #Илья сделай метод!
-    pass
+def method_simpsona(a, b, n):
+    step = (b - a) / n
+    sum = get_function_value(a) + get_function_value(b) + 4 * get_function_value(b - step)
+    for i in np.arange(a, b - 2 * step, step * 2):
+        sum += 2 * get_function_value(i) + 4 * get_function_value(i + step)
+    return sum * step / 3
 
 
 def method_parabolas(a, b, n):
@@ -85,6 +90,38 @@ def __calculate_sum(a, b, count_node):
     return sum * h
 
 
+def get_grafic(a, b, n):
+    h = np.arange(1, n)
+
+    y1 = []
+    y2 = []
+    y3 = []
+    y4 = []
+    y5 = []
+    y6 = []
+    for i in h:
+        y1.append(method_rectangles(a, b, i))
+        y2.append(method_trapeziums(a, b, i))
+        y3.append(method_simpsona(a, b, i))
+        y4.append(method_parabolas(a, b, i))
+        y5.append(method_bool(a, b, i))
+
+    plt.title("Graphics")
+    plt.xlabel("h")
+    plt.ylabel("y1, y2, y3, y4, y5")
+    plt.grid()
+
+    plt.plot(h, y1, label="Method rectangles")
+    plt.plot(h, y2, label="Method trapezoidal")
+    plt.plot(h, y3, label="Method parabolas")
+    plt.plot(h, y4, label="Method cubic parabolas")
+    plt.plot(h, y5, label="Method Boole")
+
+    plt.legend()
+
+    plt.show()
+
+
 def main():
     print("Enter a: ", end='')
     a = float(input())
@@ -98,14 +135,16 @@ def main():
 
     print(f"Method rectangles: {method_rectangles(a, b, n)}")
     print(f"Method trapezoidal: {method_trapeziums(a, b, n)}")
-    #print(f"Method parabolas: {method_simons(a, b, n)}")
+    print(f"Method parabolas: {method_simpsona(a, b, n)}")
     print(f"Method cubic parabolas: {method_parabolas(a, b, n)}")
     print(f"Method boole: {method_bool(a, b, n)}")
     print(f"Method Gauss: {method_gauss(a, b, n, count)}")
 
+    get_grafic(a, b, n)
+
 
 def get_function_value(x):
-    return numpy.e ** x
+    return np.e ** x
 
 
 if __name__ == "__main__":
