@@ -1,5 +1,6 @@
 import numpy
 import matplotlib.pyplot as plt
+from scipy import integrate
 
 
 def method_monte_karlo(a, b, n):
@@ -31,6 +32,16 @@ def method_rectangles(a, b, n):
     return answer * h
 
 
+def method_rectangles_for_two_variables(a, b, n, c, d, m):
+    h = (b - a) / n
+    h1 = (d - c) / m
+    answer = 0
+    for i in range(n):
+        for j in range(m):
+            answer += get_value_function_with_two_variable(a + i * h, b + j * h1)
+    return answer * h * h1
+
+
 def method_trapeziums(a, b, n):
     h = (b - a) / n
     answer = 0
@@ -41,7 +52,7 @@ def method_trapeziums(a, b, n):
     return answer * h / 2
 
 
-def method_simons(a, b, n):
+def method_simpson(a, b, n):
     step = (b - a) / n
     sum = get_value_function_with_one_variable(a) + get_value_function_with_one_variable(
         b) + 4 * get_value_function_with_one_variable(b - step)
@@ -125,7 +136,7 @@ def main():
     print("===FUNCTION WITH ONE VARIABLES===")
     print(f"Method rectangles: {method_rectangles(a, b, n)}")
     print(f"Method trapezoidal: {method_trapeziums(a, b, n)}")
-    print(f"Method parabolas: {method_simons(a, b, n)}")
+    print(f"Method parabolas: {method_simpson(a, b, n)}")
     print(f"Method cubic parabolas: {method_parabolas(a, b, n)}")
     print(f"Method Boole: {method_bool(a, b, n)}")
     print(f"Method Gauss: {method_gauss(a, b, n, count)}")
@@ -138,6 +149,9 @@ def main():
     print("Enter m: ", end='')
     m = int(input())
     print(f"Method Monte-Karlo: {method_monte_karlo_for_two_variables(a, b, c, d, n, m)}")
+    print(f"Method rectangles: {method_rectangles_for_two_variables(a, b, n, c, d, m)}")
+
+    get_graphic(a, b, n)
 
 
 def get_value_function_with_one_variable(x):
@@ -150,22 +164,25 @@ def get_value_function_with_two_variable(x, y):
 
 def get_graphic(a, b, n):
     h = numpy.arange(1, n)
+    z = integrate.quad(lambda x: get_value_function_with_one_variable(x), a, b)
 
     y1 = []
     y2 = []
     y3 = []
     y4 = []
     y5 = []
+    y6 = []
     for i in h:
         y1.append(method_rectangles(a, b, i))
         y2.append(method_trapeziums(a, b, i))
-        y3.append(method_simons(a, b, i))
+        y3.append(method_simpson(a, b, i))
         y4.append(method_parabolas(a, b, i))
         y5.append(method_bool(a, b, i))
+        y6.append(z[0])
 
     plt.title("Graphics")
-    plt.xlabel("h")
-    plt.ylabel("y1, y2, y3, y4, y5")
+    plt.xlabel("n")
+    plt.ylabel("y1, y2, y3, y4, y5, y6")
     plt.grid()
 
     plt.plot(h, y1, label="Method rectangles")
@@ -173,6 +190,7 @@ def get_graphic(a, b, n):
     plt.plot(h, y3, label="Method parabolas")
     plt.plot(h, y4, label="Method cubic parabolas")
     plt.plot(h, y5, label="Method Boole")
+    plt.plot(h, y6, label="Ideal")
 
     plt.legend()
 
